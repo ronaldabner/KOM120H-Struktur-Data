@@ -1,0 +1,1 @@
+# KOM120H-Struktur-Data
