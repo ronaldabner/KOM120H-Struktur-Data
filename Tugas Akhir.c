@@ -4,8 +4,6 @@
 #define V 10 // 
 #include <conio.h> // berfungsi mendefinisikan fungsi getch() untuk implementasi menu interaktif di program C
 
-
-
 typedef struct Layanan {
     // Komponen-komponen informasi dalam LL
 	int kodelayanan;	
