@@ -4,12 +4,7 @@
 #define V 10 // 
 #include <conio.h> // berfungsi mendefinisikan fungsi getch() untuk implementasi menu interaktif di program C
 
-// struct Layanan {
-// 	int kodelayanan;	
-// 	char namalayanan[20];
-// 	int ruangantersedia;
-// 	struct Layanan *next;	
-// }; typedef struct Layanan Lyn;
+
 
 typedef struct Layanan {
     // Komponen-komponen informasi dalam LL
@@ -18,19 +13,6 @@ typedef struct Layanan {
 	int ruangantersedia;
 	struct Layanan *next; // Komponen pointer untuk menunjuk node berikutnya
 } Layanan;
-
-// struct Pemesanan {
-// 	struct Pemesanan *next;
-// 	int no_antrian;
-// 	char nama[20];	
-// 	int kodelayanan;
-// 	char namalayanan[20];
-// 	int no_kamar;
-// 	int tanggal;
-// 	int bulan;
-// 	int tahun;
-// 	struct Layanan Lyn;	
-// }; typedef struct Pemesanan Pesan;
 
 typedef struct Pemesanan {
 	struct Pemesanan *next;
@@ -44,13 +26,6 @@ typedef struct Pemesanan {
 	int tahun;
 	Layanan Layanan; 
 } Pemesanan;
-
-// struct Login{
-// 	struct Login *next; 
-// 	char username[50];
-// 	char password[50];
-// 	struct Pemesanan pesan;
-// }akun[50]; typedef struct Login Lg;
 
 typedef struct Login {
 	struct Login *next;
@@ -71,9 +46,6 @@ void detaillayanan();
 void tambahpemesanan();
 void masukpemesanan();
 void lihatpemesanan();
-
-// void dijkstra(int G[V][V],int n, int startnode, int targetnode);
-// void ubahgraph();
 
 // Lg* loginakun(Lg *);
 // void lihatakun(Lg *);
