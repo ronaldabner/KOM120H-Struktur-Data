@@ -42,7 +42,7 @@ typedef struct Pemesanan {
 	int tanggal;
 	int bulan;
 	int tahun;
-	Layanan Layanan; // Komponen pointer untuk menunjuk node berikutnya
+	Layanan Layanan; 
 } Pemesanan;
 
 // struct Login{
@@ -94,6 +94,7 @@ int graph[V][V] =  {{0, 1, 0, 0, 0, 0, 0, 0},
 				   { 0, 0, 3, 0, 0, 0, 0, 2},
 				   { 0, 0, 0, 0, 1, 0, 0, 1},
 				   { 0, 0, 0, 0, 0, 0, 0, 0}};
+// Nilai 0 menunjukkan tidak adanya hubungan antara simpul tersebut, sedangkan nilai non-0 menunjukkan adanya hubungan dengan bobot atau nilai tertentu.
 
 int main () {
     // Deklarasi variabel pilihan untuk masuk ke dalam menu berdasarkan input pengguna
@@ -112,7 +113,7 @@ int main () {
     // 1 = Blue
     // 2 = Green
     // 3 = Aqua
-    // 4 = Red
+    // 4 = Red 
     // 5 = Purple
     // 6 = Yellow
     // 7 = White
@@ -179,8 +180,10 @@ int main () {
             printf("5. Melihat Detail Layanan\n");
             printf("----------------------------\n");
             printf("Masukkan Pilihan Anda: ");
+            // Penggunaan switch yang berisikan pilihan-pilihan submenu yang akan dijalankan berdasarkan input pengguna.
             scanf("%d", &pilihsubmenu);
             switch(pilihsubmenu) {
+                // Setelah program selesai dieksekusi, program kembali ke halaman utama menggunakan goto label pada menu;
                 case 1:
                     tambahlayanan();
                     break;
@@ -202,7 +205,7 @@ int main () {
                     break;
                     goto menu;
             }
-        }
+        }   
         else if(pilihmenu == 2) {
             system("cls");
             system("color 03");
@@ -225,6 +228,7 @@ int main () {
                     goto menu;
             }            
         }
+
         // Detail Antrian (-) (Melihat seberapa panjang antrian)
         // else if(pilihmenu == 3) {
         //     system("cls");
@@ -248,24 +252,28 @@ int main () {
         //             // goto menu;
         //     }            
         // }
+
         // Keluar dari program
         else if(pilihmenu == 4) {
             system("cls");
             system("color 03");
             printf("");
             getch();
+            // Fungsi untuk mengakhiri program dengna keluar dari program secara normal. 
             exit(0);
             break;
         }
+
         // Pilihan di luar pilihan yang ada
         else {
             system("cls");
-            printf("Pilihan Tidak Tersedia, Silakan memasukkan ulang input!");
+            printf("Pilihan tidak tersedia, Silakan memasukkan ulang input!");
             getch();
             break;
         }
     }
 
+    // Apakah diperlukan?
     while(pilihsubmenu != 10);
     return 0;
     // akhir:
@@ -342,20 +350,28 @@ void tambahlayanan() {
     system("cls");
 }
 
-// Fungsi yang menginisialisasi nilai anggota dari struct Layanan (Menerima input dari tambahlayanan())
+// Fungsi yang menginisialisasi nilai anggota dari struct Layanan (Parameter menerima input dari tambahlayanan())
 void masuklayanan(int kodelayanan, char namalayanan[], int ruangantersedia1) {
+    // Membuat node baru menggunakan malloc() untuk mengalokasikan memori dengan ukuran sizeof(Layanan) (struct Layanan)
+    // newnode = alamat memori yang dialokasikan untuk node baru dan disimpan dalam variabel newnode
 	Layanan* newnode = (Layanan*)malloc(sizeof(Layanan)); 
+    // Menginisialisasi nilai anggota struct Layanan dari newnode, yaitu kodelayanan dengan nilai yang diterima dari parameter kodelayanan
 	newnode->kodelayanan = kodelayanan; 
+    // Menyalin string namalayanan dari parameter char namalayanan[] ke anggota struct "namalayanan" sehingga string namalayanan memiliki nilai string baru.
 	strcpy(newnode->namalayanan, namalayanan);
+    // Menginisialisasi nilai anggota struct Layanan, yaitu ruangantersedia dengan nilai yang diterima dari parameter kodelayanan
 	newnode->ruangantersedia = ruangantersedia1; 
+    // Mengatur pointer next dari node baru agar menunjuk ke node pertama saat ini. Jika linked list masih kosong, maka head bernilai NULL.
 	newnode->next = head; 
-	head = newnode;
+    // Mengubah pointer head untuk menunjuk ke node baru (newnode). newnode akan menjadi node pertama dalam linked list.
+    head = newnode;
 }
 
 // Fungsi pilihsubmenu == 2. Fungsi mengubah input pada submenu == 1 dari pengguna.
 void updatelayanan() {
+    // current adalah variabel lokal untuk menunjuk ke node.
 	Layanan *current;
-   	char namalayanan1[50];
+   	char namalayananbaru[50];
    	int num, ruangantersedia;
 	system("cls");
 	
@@ -364,57 +380,73 @@ void updatelayanan() {
 	printf("--------------\n");
 	
 	printf("Masukkan Kode Layanan yang Ingin di Ubah : ");		
-	scanf("%d", &num);
+	scanf("%d", &num); 
 	fflush(stdin);
 	
-	if(head==NULL){
-        // Kondisi apabila pengguna belum memasukkan/menghapus input pada pilihsubmenu == 1
+	// head = newnode;
+    // Kondisi apabila pengguna belum memasukkan/menghapus input pada pilihsubmenu == 1
+	if(head==NULL) {
 		printf("List Masih Kosong"); 
         getch(); 
         system("cls"); 
         return;
 	}
 	
+    // Mengubah pointer head menjadi current untuk menunjuk ke node baru (newnode). 
+	// head = newnode;
 	current = head;
-	while(current!=NULL){
-        // Memeriksa apakah kodelayanan yang dimasukkan sesuai dengan kodelayanan yang dimasukkan pada submenu == 1
-	 	if(num==current->kodelayanan){
+	while(current!=NULL) {
+        // Memeriksa kodelayanan (num) yang dimasukkan pengguna untuk mengupdate layanan yang sesuai dengan kodelayanan yang dimasukkan pada submenu == 1
+	 	if(num==current->kodelayanan) {
 	 		printf("--------------\n");
 	 		printf("Masukkan Nama Layanan: ");
-	      	scanf("%s", &namalayanan1);
-	      	strcpy(current->namalayanan, namalayanan1);
+            // Memasukkan nama layanan baru
+	      	scanf("%s", &namalayananbaru);
+            // Menyalin string namalayanan dari input nama layanan baru ke anggota struct "namalayanan" sehingga string namalayanan memiliki nilai string baru.
+	      	strcpy(current->namalayanan, namalayananbaru);
 	      	printf("Jumlah Ruangan yang Tersedia	: ");
+            // Memasukkan jumlah ruangan tersedia baru
 	      	scanf("%d", &ruangantersedia);
+            // Memperbarui jumlah ruangan tersedia dari input ruangan tersedia ke anggota struct "ruangantersedia"
 	      	current->ruangantersedia = ruangantersedia;
 			return;
 		}
+        // Menggeser pointer current ke node berikutnya. 
+        // Menggunakan perulangan while untuk melanjutkan pengecekan node berikutnya hingga akhir dari input pengguna
 		current=current->next;
 	}
+    
 	printf("\tKode Layanan %d Tidak Berada di dalam List", num);
 	getch(); 
     system("cls");
 }
 
-// Fungsi pilihsubmenu == 3. Fungsi melihat detail input dari pengguna.
+// Fungsi pilihsubmenu == 3. Fungsi melihat daftar layanan dan jumlah kamar yang tersedia dari input pengguna.
 void lihatlayanan() {
+    // Deklarasi variabel pointer lihat dengan tipe data struct Layanan
     Layanan* lihat;
     system("cls"); 
     printf("\n");
 
-    if(head==NULL){
+	// head = newnode;
+    // Kondisi memeriksa pointer ke node apakah pengguna sudah memasukkan input pada pilihmenu == 1 && pilihsubmenu == 1
+    if(head==NULL) {
+        // Jika belum memasukkan/menghapus masukan input (Bernilai NULL)
         printf("\n\tData Layanan Kosong\n");
     }
-    else{ 
-    printf("--------------\n");
-    printf("Lihat Layanan\n");
-    printf("--------------");
-    lihat = head; 
-        
-		while(lihat != NULL){ 
-            // Fungsi akan terus mengeluarkan detail layanan sebanyak yang dimasukkan pengguna
+    else { 
+        printf("--------------\n");
+        printf("Lihat Layanan\n");
+        printf("--------------");
+        // Mengubah pointer head menjadi lihat untuk menunjuk ke node baru (newnode). 
+        lihat = head; 
+            
+        while(lihat != NULL) { 
+            // Fungsi akan terus mengeluarkan detail layanan sebanyak-banyaknya hingga mencapai akhir dari input pengguna
             printf("\nKode Layanan: %d", lihat->kodelayanan);
             printf("\nNama Layanan: %s", lihat->namalayanan);
             printf("\nRuangan Tersedia: %d", lihat->ruangantersedia);
+            // Menggunakan perulangan while untuk melanjutkan pengecekan node berikutnya hingga akhir dari input pengguna
             lihat = lihat->next;
         } 
     }
@@ -425,6 +457,7 @@ void lihatlayanan() {
 // Fungsi pilihsubmenu == 4. Fungsi menghapus input dari pengguna menggunakan free().
 void hapuslayanan() {
     system("cls");	
+    // Menginisialisasi variabel pointer temp dengan nilai NULL
     Layanan *temp = NULL;
     int num;
 	
@@ -433,36 +466,45 @@ void hapuslayanan() {
 	printf("--------------\n");
 	printf("Masukkan List Layanan Yang ingin di Hapus : ");		
 	scanf("%d", &num);
-	
-	if(head==NULL) {
+
+	// head = newnode;
     // Kondisi apabila pengguna belum memasukkan/menghapus input pada pilihsubmenu == 1
+	if(head==NULL) {
 		printf("\nList Masih Kosong");
 		getch(); 
         system("cls"); 
         return;
 	}
-	
-	if(num==head->kodelayanan) {	//Mencek list pertama
-    // Kondisi memeriksa input dari pengguna apakah input yang dimasukkan == kodelayanan yang dipilih
+
+    // Memeriksa kodelayanan (num) yang dimasukkan pengguna untuk menghapus layanan dengan kodelayanan yang sesuai pada input submenu == 1
+	if(num==head->kodelayanan) {
+        // Mengubah pointer head menjadi temp (Variabel sementara) untuk menunjuk ke node baru (newnode). 
 		temp = head;
+        // Mengubah pointer head untuk menunjuk node berikutnya
 		head = head->next;
+        // Fungsi free digunakan untuk menghapus layanan berdasarkan kodelayanan yang sesuai dengan input pengguna
 		free(temp);
 		return;
 	}
 	
+    // Mengubah pointer head menjadi p untuk menunjuk ke node baru (newnode). 
 	p = head;
-	while(p->next!=NULL){	//Mencek list berikutnya
-    // Fungsi akan terus memeriksa input selanjutnya yang dimasukkan pengguna hingga akhir dari input pengguna
-		if(p->next->kodelayanan==num){
-        // Kondisi memeriksa input dari pengguna apakah input yang dimasukkan == kodelayanan yang dipilih
-        // Penghapusan Data Linked List
+	while(p->next!=NULL) {	
+    // Selama node tidak kosong, fungsi akan terus memeriksa node berikutnya dalam linked list 
+		if(p->next->kodelayanan==num) {
+            // Memeriksa kodelayanan (num) yang dimasukkan pengguna untuk menghapus layanan dengan kodelayanan yang sesuai pada submenu == 1 pada node berikutnya
+            // Mengubah pointer node berikutnya menjadi temp (Variabel sementara) untuk menunjuk ke node baru (newnode). 
 			temp = p->next;
+            // Mengubah pointer node berikutnya ke node setelah node berikutnya.
 			p->next = temp->next;
-			free(temp);
+            // Fungsi free digunakan untuk menghapus layanan berdasarkan kodelayanan yang sesuai dengan input pengguna
+			// Membebaskan memori node berikutnya
+            free(temp);
 			getch(); 
             system("cls");
 			return;
 		}
+        // Menggunakan perulangan while untuk melanjutkan pengecekan node berikutnya hingga akhir dari input pengguna
 		p = p->next;
 	}
 	printf("\n\tKode Layanan %d Tidak Berada di dalam List", num);
@@ -470,57 +512,75 @@ void hapuslayanan() {
     system("cls");
 }
 
-// Fungsi pilihsubmenu == 5. Fungsi menerima input dari pengguna.
+// Fungsi pilihsubmenu == 5. Fungsi melihat daftar layanan dan jumlah kamar yang tersedia berdasarkan kode layanan
 void detaillayanan() {
     system("cls"); 
     printf("\n");
     int search_detail;
-    int kembali;
+    int Pesanan;
+    // Deklarasi variabel pointer detail dan letak dengan tipe data struct Layanan
     Layanan* detail;
     Layanan* letak;
+    // Deklarasi variabel pointer lihat dengan tipe data struct Pemesanan
     Pemesanan* lihat;
 
-    if(head==NULL){
-    // Kondisi apabila pengguna belum memasukkan/menghapus input pada pilihsubmenu == 1
+	// head = newnode;
+    // Kondisi memeriksa pointer ke node apakah pengguna sudah memasukkan input pada pilihsubmenu == 1
+    if(head==NULL) {
+        // Jika belum memasukkan/menghapus masukan input (Bernilai NULL)
         printf("Detail Layanan Kosong\n");
     }
-	else{
+	else {
 	 	printf("--------------\n");
     	printf("Lihat Detail Layanan\n");
     	printf("--------------\n");
+        // Mengubah pointer head menjadi detail untuk menunjuk ke node baru (newnode). 
     	detail = head; 
         
-		while(detail != NULL){ 
-        // Fungsi akan terus membuat daftar detail layanan berdasarkan input yang dimasukkan pengguna hingga akhir dari input pengguna
+		while(detail != NULL) { 
+            // Fungsi akan terus mengeluarkan daftar kode layanan beserta nama layanannya sebanyak-banyaknya hingga mencapai akhir dari input pengguna
         	printf("\n[%d]\t[%s] \n", detail->kodelayanan, detail->namalayanan);
-			// Fungsi memeriksa input selanjutnya yang dimasukkan pengguna hingga akhir dari input pengguna
+            // Menggunakan perulangan while untuk melanjutkan pengecekan node berikutnya hingga akhir dari input pengguna
             detail = detail->next; 
 		}
+
 		printf("Masukkan kode layanan yang ingin dilihat detailnya: ");
 		scanf("%d", &search_detail);
-		
+        // Mengubah pointer head menjadi letak untuk menunjuk ke node baru (newnode) pada fungsi masuklayanan().
+        // Mengubah pointer head1 menjadi letak untuk menunjuk ke node baru (newnode) pada fungsi masukpemesanan().
 		letak = head;
 		lihat = head1;
-		while(letak!=NULL){
-			if(search_detail==letak->kodelayanan){
-				printf("\n\tKode Layanan		: %d", letak->kodelayanan);
-        		printf("\n\tNama Layanan		: %s", letak->namalayanan);
-        		printf("\nRuangan Tersedia		: %d", letak->ruangantersedia);
-				while (lihat != NULL){
-					if(letak->kodelayanan == lihat->kodelayanan){
-						printf("\n\tNama Pemesan 		: %s \n", lihat->nama);
+		while(letak!=NULL) {
+            // Selama node tidak kosong, fungsi akan terus memeriksa node dalam linked list 
+			if(search_detail==letak->kodelayanan) {
+                // Fungsi akan mengeluarkan detail layanan berdasarkan kodelayanan yang sesuai dengan input pengguna
+                printf("\nKode Layanan		: %d", letak->kodelayanan);
+        		printf("\nNama Layanan		: %s", letak->namalayanan);
+        		printf("\nRuangan Tersedia	: %d", letak->ruangantersedia);
+                
+				while (lihat != NULL) {
+                    // Selama node tidak kosong, fungsi akan terus memeriksa node dalam linked list
+                    // Jika kodelayanan sesuai
+					if(letak->kodelayanan == lihat->kodelayanan) {
+                        // Menghasilkan keluaran nama-nama pemesan layanan tersebut berdasarkan kode layanan
+						printf("\nNama Pemesan 	: %s \n", lihat->nama);
+                        // Menggunakan perulangan while untuk melanjutkan pengecekan node berikutnya hingga akhir dari input pengguna
 						lihat = lihat->next;
-						kembali =1;
+						Pesanan = 1;
 					}
-					else{
+					else {
+                        // Menggunakan perulangan while untuk melanjutkan pengecekan node berikutnya hingga akhir dari input pengguna
 						lihat = lihat->next;
-						kembali =0;
+						Pesanan = 0;
 					}
 				}
-				if (kembali == 0){
+
+                // Jika tidak ada pemesan pada kode layanan tersebut,
+				if (Pesanan == 0) {
 					printf("\n\tLayanan belum dipesan");
 				}
 			}
+            // Menggunakan perulangan while untuk melanjutkan pengecekan node berikutnya hingga akhir dari input pengguna
 			letak = letak->next;
 		}
     }
@@ -528,23 +588,21 @@ void detaillayanan() {
     system("cls");
 }
 
-// Implementasi Linked List
 // Fungsi pilihmenu == 2
-// Fungsi dengan 8 parameter, menerima nilai yang diteruskan fungsi tambahpemesanan()
 void tambahpemesanan() {
 	system("cls"); 
     system("color 03");
     int no_antrian, kodelayanan, no_kamar, tanggal, bulan, tahun;
-    char nampes[50], namalayanan[40];
+    char namapemesan[50], namalayanan[40];
 	fflush(stdin);
 	printf("----------------------\n");
 	printf("Buat Pemesanan Layanan\n");
 	printf("----------------------\n");
 	printf("No Antrian: ");
 	scanf ("%d",&no_antrian); 
-    fflush(stdin);
+    fflush(stdin); // Membersihkan buffer masukan sebelum mengambil input dari pengguna
 	printf("Nama Pemesan: ");
-	scanf("%s", &nampes); 	
+	scanf("%s", &namapemesan); 	
     fflush(stdin);
 	printf("Kode Layanan: ");
 	scanf ("%d",&kodelayanan); 
@@ -565,40 +623,55 @@ void tambahpemesanan() {
 	scanf("%d", &tahun); 	
     fflush(stdin);
 
-	masukpemesanan(no_antrian, kodelayanan, no_kamar, tanggal, bulan, tahun, nampes, namalayanan);
+	masukpemesanan(no_antrian, kodelayanan, no_kamar, tanggal, bulan, tahun, namapemesan, namalayanan);
 	getch();
     system("cls");
 }
 
-void masukpemesanan(int no_antrian, int kodelayanan, int no_kamar,int tanggal,int bulan,int tahun,char nampes[],char namalayanan[]) {
-	Pemesanan* newnode = (Pemesanan*)malloc(sizeof(Pemesanan)); 
+// Fungsi dengan 8 parameter, menerima nilai yang diteruskan dari fungsi tambahpemesanan()
+void masukpemesanan(int no_antrian, int kodelayanan, int no_kamar,int tanggal,int bulan,int tahun,char namapemesan[],char namalayanan[]) {
+    // Membuat node baru menggunakan malloc() untuk mengalokasikan memori dengan ukuran sizeof(Pemesanan) (struct Pemesanan)
+    // newnode = alamat memori yang dialokasikan untuk node baru dan disimpan dalam variabel newnode
+    Pemesanan* newnode = (Pemesanan*)malloc(sizeof(Pemesanan)); 
+    // Menginisialisasi nilai anggota struct Pemesanan dari newnode, yaitu no_antrian dengan nilai yang diterima dari parameter int no_antrian
 	newnode->no_antrian = no_antrian; 
-	strcpy(newnode->nama, nampes);
-	newnode->kodelayanan = kodelayanan; 
+    // Menyalin string namapemesan dari parameter char namapemesan[] ke anggota struct "nama" sehingga string nama memiliki nilai string baru.
+	strcpy(newnode->nama, namapemesan);
+	newnode->kodelayanan = kodelayanan;
+    // Menyalin string namalayanan dari parameter char namalayanan[] ke anggota struct "namalayanan" sehingga string namalayanan memiliki nilai string baru.
 	strcpy(newnode->namalayanan, namalayanan);
+    // Menginisialisasi nilai anggota struct Pemesanan dari newnode, yaitu no_kamar dengan nilai yang diterima dari parameter int no_kamar
 	newnode->no_kamar = no_kamar; 
+    // Menginisialisasi nilai anggota struct Pemesanan dari newnode, yaitu tanggal dengan nilai yang diterima dari parameter int tanggal
 	newnode->tanggal = tanggal; 
+    // Menginisialisasi nilai anggota struct Pemesanan dari newnode, yaitu bulan dengan nilai yang diterima dari parameter int bulan
 	newnode->bulan = bulan; 
-	newnode->tahun = tahun; 
+    // Menginisialisasi nilai anggota struct Pemesanan dari newnode, yaitu tahun dengan nilai yang diterima dari parameter int tahun
+	newnode->tahun = tahun;
+    // Mengatur pointer next dari node baru (newnode) agar menunjuk ke node pertama saat ini. Jika linked list masih kosong, maka head bernilai NULL.
 	newnode->next = head1; 
+    // Mengubah pointer head1 untuk menunjuk ke node baru (newnode). newnode akan menjadi node pertama dalam linked list.
 	head1 = newnode;
 }
 
 // Implementasi graf untuk melihat daftar pemesanan
 void lihatpemesanan(int graph[V][V]) {
-	struct Pemesanan* lihat;
+    // Deklarasi variabel pointer lihat dengan tipe data struct Pemesanan
+	Pemesanan* lihat;
 	system("cls"); 
     system("color 03");
-	
-	if (head1 == NULL){
+    // Kondisi memeriksa pointer ke node apakah pengguna sudah memasukkan input pada pilihmenu == 2 && pilihsubmenu == 1
+	if (head1 == NULL) {
 		printf (" Tidak Ada Proses Pemesanan Layanan ");
 	}
-	else{
+	else {
 		printf("-----------------------------\n");
 		printf("Lihat Proses Pemesanan Layanan\n");
 		printf("-----------------------------");
+        // Mengubah pointer head menjadi detail untuk menunjuk ke node baru (newnode). 
 		lihat = head1;
-		while (lihat!= NULL){
+		while (lihat!= NULL) {
+            // Fungsi akan terus mengeluarkan daftar detail pesanan sampai akhir input pengguna
 			printf("\n\nNo Antrian: %d", lihat->no_antrian);
 			printf("\nNama Pemesan: %s", lihat->nama);
 			printf("\nKode Layanan: %d", lihat->kodelayanan);
@@ -608,6 +681,7 @@ void lihatpemesanan(int graph[V][V]) {
 			printf("\nBulan: %d", lihat->bulan);
 			printf("\nTahun: %d", lihat->tahun); 
             printf("\n");
+            // Menggunakan perulangan while untuk melanjutkan pengecekan node berikutnya hingga akhir dari input pengguna
 			lihat = lihat->next;
 		}
 	}
